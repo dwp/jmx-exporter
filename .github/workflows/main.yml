@@ -5,8 +5,9 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
+      - "docs/**"
+      - "ci/**"
+      - "*.md"
 
 env:
   IMAGE_NAME: dwpdigital/jmx-exporter
