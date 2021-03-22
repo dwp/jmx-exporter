@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 echo "INFO: Checking container configuration..."
-if [ -z "${PROMETHEUS_CONFIG_S3_BUCKET}" -o -z "${PROMETHEUS_CONFIG_S3_PREFIX}" ]; then
-    echo "ERROR: PROMETHEUS_CONFIG_S3_BUCKET and PROMETHEUS_CONFIG_S3_PREFIX environment variables must be provided"
+if [ -z "${AZKABAN_CONFIG_S3_BUCKET}" -o -z "${AZKABAN_CONFIG_S3_PREFIX}" ]; then
+    echo "ERROR: AZKABAN_CONFIG_S3_BUCKET and AZKABAN_CONFIG_S3_PREFIX environment variables must be provided"
     exit 1
 fi
 
-S3_URI="s3://${PROMETHEUS_CONFIG_S3_BUCKET}/${PROMETHEUS_CONFIG_S3_PREFIX}"
+S3_URI="s3://${AZKABAN_CONFIG_S3_BUCKET}/${AZKABAN_CONFIG_S3_PREFIX}"
 
 # If either of the AWS credentials variables were provided, validate them
 if [ -n "${AWS_ACCESS_KEY_ID}${AWS_SECRET_ACCESS_KEY}" ]; then
@@ -45,11 +45,11 @@ else
     echo "INFO: Using attached IAM roles/instance profiles to authenticate with S3 as no AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY have been provided"
 fi
 
-if [ -f "/etc/prometheus/${JMX_EXPORTER_CONFIG}.yml" ]; then
+if [ -f "/opt/bitnami/jmx-exporter/jmx-exporter.yml" ]; then
     echo "Config mounted as Volume from S3"
 else
     echo "INFO: Copying jmx-exporter configuration file(s) from ${S3_URI} to /opt/bitnami/jmx-exporter..."
-    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/ /opt/bitnami/jmx-exporter
+    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${AZKABAN_ROLE}/jmx-exporter.yml /opt/bitnami/jmx-exporter
 fi
 
 if [ !"${LOG_LEVEL}" ]; then
@@ -57,4 +57,4 @@ if [ !"${LOG_LEVEL}" ]; then
 fi
 
 echo "INFO: Starting jmx-exporter..."
-exec java -jar jmx_prometheus_httpserver.jar=5556:${JMX_EXPORTER_CONFIG}.yml
+exec java -jar jmx_prometheus_httpserver.jar=5556:/opt/bitnami/jmx-exporter/jmx-exporter.yml
