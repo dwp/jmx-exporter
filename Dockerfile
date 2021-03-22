@@ -3,7 +3,7 @@ FROM bitnami/jmx-exporter:0.15.0
 # Dependencies
 RUN apt-get update -qq \
     && apt-get install -y --no-install-recommends \
-    aws-cli
+    awscli
 
 COPY entrypoint.sh /bin/entrypoint.sh
 
