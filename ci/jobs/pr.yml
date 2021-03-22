@@ -1,29 +1,29 @@
 jobs:
-  - name: dataworks-repo-template-docker-pr
+  - name: jmx-exporter-pr
     plan:
-      - get: dataworks-repo-template-docker-pr
+      - get: jmx-exporter-pr
         trigger: true
         version: every
-      - put: dataworks-repo-template-docker-pr
+      - put: jmx-exporter-pr
         params:
-          path: dataworks-repo-template-docker-pr
+          path: jmx-exporter-pr
           status: pending
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
-          dataworks-repo-template-docker: dataworks-repo-template-docker-pr
+          jmx-exporter: jmx-exporter-pr
       - .: (( inject meta.plan.terraform-plan ))
         input_mapping:
-          dataworks-repo-template-docker: dataworks-repo-template-docker-pr
+          jmx-exporter: jmx-exporter-pr
         params:
           TF_WORKSPACE: "management"
           DETAILED_EXITCODE: ""
         on_failure:
-          put: dataworks-repo-template-docker-pr
+          put: jmx-exporter-pr
           params:
-            path: dataworks-repo-template-docker-pr
+            path: jmx-exporter-pr
             status: failure
         on_success:
-          put: dataworks-repo-template-docker-pr
+          put: jmx-exporter-pr
           params:
-            path: dataworks-repo-template-docker-pr
+            path: jmx-exporter-pr
             status: success
