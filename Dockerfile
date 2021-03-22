@@ -8,7 +8,7 @@ ENV HOME="/" \
 
 COPY prebuildfs /
 # Install required system packages and dependencies
-RUN install_packages ca-certificates curl gzip libc6 libgcc1 procps tar wget unzip
+RUN install_packages ca-certificates curl gzip libc6 libgcc1 procps tar wget unzip awscli
 RUN wget -nc -P /tmp/bitnami/pkg/cache/ https://downloads.bitnami.com/files/stacksmith/java-1.8.282-0-linux-amd64-debian-10.tar.gz && \
     echo "473d0ab64adfe82d84dd810c28e0f22242eeffbaf74a85febf7586ce013aa7ba  /tmp/bitnami/pkg/cache/java-1.8.282-0-linux-amd64-debian-10.tar.gz" | sha256sum -c - && \
     tar -zxf /tmp/bitnami/pkg/cache/java-1.8.282-0-linux-amd64-debian-10.tar.gz -P --transform 's|^[^/]*/files|/opt/bitnami|' --wildcards '*/files' && \
@@ -23,10 +23,10 @@ ENV BITNAMI_APP_NAME="jmx-exporter" \
     BITNAMI_IMAGE_VERSION="0.15.0-debian-10-r53" \
     PATH="/opt/bitnami/java/bin:$PATH"
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-    && unzip awscliv2.zip \
-    && sudo ./aws/install \
-    && aws --version
+# RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+#     && unzip awscliv2.zip \
+#     && sudo ./aws/install \
+#     && aws --version
 
 COPY entrypoint.sh /bin/entrypoint.sh
 
