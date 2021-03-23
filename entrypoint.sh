@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 echo "INFO: Checking container configuration..."
-if [ -z "${AZKABAN_CONFIG_S3_BUCKET}" -o -z "${AZKABAN_CONFIG_S3_PREFIX}" ]; then
-    echo "ERROR: AZKABAN_CONFIG_S3_BUCKET and AZKABAN_CONFIG_S3_PREFIX environment variables must be provided"
+if [ -z "${JMX-EXPORTER_CONFIG_S3_BUCKET}" -o -z "${JMX-EXPORTER_CONFIG_S3_PREFIX}" ]; then
+    echo "ERROR: JMX-EXPORTER_CONFIG_S3_BUCKET and JMX-EXPORTER_CONFIG_S3_PREFIX environment variables must be provided"
     exit 1
 fi
 
-S3_URI="s3://${AZKABAN_CONFIG_S3_BUCKET}/${AZKABAN_CONFIG_S3_PREFIX}"
+S3_URI="s3://${JMX-EXPORTER_CONFIG_S3_BUCKET}/${JMX-EXPORTER_CONFIG_S3_PREFIX}"
 
 # If either of the AWS credentials variables were provided, validate them
 if [ -n "${AWS_ACCESS_KEY_ID}${AWS_SECRET_ACCESS_KEY}" ]; then
@@ -49,7 +49,7 @@ if [ -f "/opt/bitnami/jmx-exporter/jmx-exporter.yml" ]; then
     echo "Config mounted as Volume from S3"
 else
     echo "INFO: Copying jmx-exporter configuration file(s) from ${S3_URI} to /opt/bitnami/jmx-exporter..."
-    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${AZKABAN_ROLE}/jmx-exporter.yml /opt/bitnami/jmx-exporter
+    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${JMX-EXPORTER_ROLE}/jmx-exporter.yml /opt/bitnami/jmx-exporter
 fi
 
 if [ !"${LOG_LEVEL}" ]; then
