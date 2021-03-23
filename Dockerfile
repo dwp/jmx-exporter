@@ -29,5 +29,5 @@ RUN chmod g+rwX /bin/entrypoint.sh
 EXPOSE 5556
 
 WORKDIR /opt/bitnami/jmx-exporter
-USER 1001
+
 ENTRYPOINT [ "/bin/entrypoint.sh" ]
