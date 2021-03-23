@@ -30,4 +30,4 @@ WORKDIR /opt/bitnami/jmx-exporter
 COPY entrypoint.sh entrypoint.sh
 RUN chown nobody:nogroup entrypoint.sh
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
