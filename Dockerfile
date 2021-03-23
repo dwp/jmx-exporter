@@ -23,11 +23,11 @@ ENV BITNAMI_APP_NAME="jmx-exporter" \
     BITNAMI_IMAGE_VERSION="0.15.0-debian-10-r53" \
     PATH="/opt/bitnami/java/bin:$PATH"
 
-COPY entrypoint.sh /bin/entrypoint.sh
-RUN chown nobody:nogroup entrypoint.sh
-
 EXPOSE 5556
 
 WORKDIR /opt/bitnami/jmx-exporter
 
-ENTRYPOINT [ "/bin/entrypoint.sh" ]
+COPY entrypoint.sh entrypoint.sh
+RUN chown nobody:nogroup entrypoint.sh
+
+ENTRYPOINT [ "entrypoint.sh" ]
