@@ -24,9 +24,10 @@ ENV BITNAMI_APP_NAME="jmx-exporter" \
     PATH="/opt/bitnami/java/bin:$PATH"
 
 COPY entrypoint.sh /bin/entrypoint.sh
+RUN chmod g+rwX /bin/entrypoint.sh
 
 EXPOSE 5556
 
 WORKDIR /opt/bitnami/jmx-exporter
-USER 1001
+
 ENTRYPOINT [ "/bin/entrypoint.sh" ]
