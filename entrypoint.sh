@@ -57,4 +57,4 @@ if [ !"${LOG_LEVEL}" ]; then
 fi
 
 echo "INFO: Starting jmx-exporter..."
-exec java -jar jmx_prometheus_httpserver.jar=5556:/opt/bitnami/jmx-exporter/jmx-exporter.yml
+exec java -jar jmx_prometheus_httpserver.jar 5556 jmx-exporter.yml
