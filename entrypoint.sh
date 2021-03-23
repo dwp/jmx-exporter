@@ -49,7 +49,7 @@ if [ -f "/opt/bitnami/jmx-exporter/jmx-exporter.yml" ]; then
     echo "Config mounted as Volume from S3"
 else
     echo "INFO: Copying jmx-exporter configuration file(s) from ${S3_URI} to /opt/bitnami/jmx-exporter..."
-    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${JMX_EXPORTER_ROLE}/jmx-exporter.yml /opt/bitnami/jmx-exporter
+    aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${JMX_EXPORTER_ROLE} /opt/bitnami/jmx-exporter/
 fi
 
 if [ !"${LOG_LEVEL}" ]; then
@@ -57,4 +57,4 @@ if [ !"${LOG_LEVEL}" ]; then
 fi
 
 echo "INFO: Starting jmx-exporter..."
-exec java -jar jmx_prometheus_httpserver.jar 5556 jmx-exporter.yml
+exec java -jar jmx_prometheus_httpserver.jar 5556 /opt/bitnami/jmx-exporter/jmx-exporter.yml
