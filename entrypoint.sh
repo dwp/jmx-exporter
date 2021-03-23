@@ -48,8 +48,12 @@ fi
 if [ -f "/opt/bitnami/jmx-exporter/jmx-exporter.yml" ]; then
     echo "Config mounted as Volume from S3"
 else
+    set -x
     echo "INFO: Copying jmx-exporter configuration file(s) from ${S3_URI} to /opt/bitnami/jmx-exporter..."
+    pwd
     aws ${PROFILE_OPTION} s3 sync ${S3_URI}/${JMX_EXPORTER_ROLE} /opt/bitnami/jmx-exporter/
+    ls
+    find . -name jmx-exporter.yml
 fi
 
 if [ !"${LOG_LEVEL}" ]; then
